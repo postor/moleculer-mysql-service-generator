@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/postor/moleculer-mysql-service-generator/issues"
   },
+  "bin": {
+    "moleculer-mysql-service-generator":"cli.js"
+  },
   "dependencies": {
     "bluebird": "^3.7.2",
     "fs-extra": "^9.0.1",
