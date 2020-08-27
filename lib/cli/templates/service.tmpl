@@ -1,0 +1,72 @@
+"use strict";
+
+const DbMixin = require("../mixins/db.mixin");
+
+/**
+ * @typedef {import('moleculer').Context} Context Moleculer's Context
+ */
+
+module.exports = {
+	name: "<%= tablename %>",
+	// version: 1
+
+	/**
+	 * Mixins
+	 */
+	mixins: [DbMixin("<%= tablename %>")],
+
+	/**
+	 * Settings
+	 */
+	settings: {
+		// Available fields in the responses
+		fields: <%= tablefields %>
+	},
+
+	/**
+	 * Action Hooks
+	 */
+	hooks: {
+		before: {
+			/**
+			 * Register a before hook for the `create` action.
+			 * It sets a default value for the quantity field.
+			 *
+			 * @param {Context} ctx
+			 */
+			create(ctx) {
+				ctx.params.quantity = 0;
+			}
+		}
+	},
+
+	/**
+	 * Actions
+	 */
+	actions: {
+		/**
+		 * The "moleculer-db" mixin registers the following actions:
+		 *  - list
+		 *  - find
+		 *  - count
+		 *  - create
+		 *  - insert
+		 *  - update
+		 *  - remove
+		 */
+
+		// --- ADDITIONAL ACTIONS ---
+	},
+
+	/**
+	 * Methods
+	 */
+	methods: {
+	},
+
+	/**
+	 * Fired after database connection establishing.
+	 */
+	async afterConnected() {
+	}
+};
