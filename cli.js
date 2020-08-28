@@ -10,6 +10,7 @@ var getConnectionConfig = require('./lib/cli/connection')
 var path = require('path')
 var mysql = require('mysql')
 var mysqlUtilities = require('mysql-utilities')
+var templatePath = path.join(__dirname, 'templates', 'service.tmpl')
 
 var config = {
   db: {
@@ -19,8 +20,6 @@ var config = {
   tables: [],
   generatePath: ''
 }
-var restfulPath = ''
-var configFilePath = ''
 var mysqlConnection = null
 var tableDetails = null
 
@@ -29,11 +28,15 @@ promisePrompt([{
   name: 'generatePath',
   default: 'services',
   description: 'path for generated restful files (services)'
+}, {
+  name: 'templatePath',
+  default: templatePath,
+  description: 'path for generated restful files (' + templatePath + ')'
+
 }])
   .then((result) => {
     restfulPath = path.join(process.cwd(), result.generatePath)
-    config.generatePath = restfulPath
-    configFilePath = path.join(restfulPath, 'config.json')
+    templatePath = result.templatePath
   })
   //连接配置
   .then(getConnectionConfig)
@@ -65,7 +68,7 @@ promisePrompt([{
     }
     config.tables = tableNames
     return Promise.all(tableNames.map((tableName) => {
-      return tableUtil.generateTableFiles(restfulPath, tableName, mysqlConnection)
+      return tableUtil.generateTableFiles(restfulPath, tableName, mysqlConnection, templatePath)
     }))
   })
   //结果

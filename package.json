@@ -1,6 +1,6 @@
 {
   "name": "moleculer-mysql-service-generator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "read mysql table structures and generate moleculer services",
   "main": "index.js",
   "scripts": {
