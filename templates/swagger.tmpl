@@ -1,0 +1,117 @@
+/api/<%= tablename %>.list:
+  post:
+    tags:
+      - <%= tablename %>
+    description: 分页
+    produces:
+      - application/json
+    requestBody:
+      required: false
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              page:
+                type: number
+                example: 1
+                description: 页码
+              pageSize:
+                type: number
+                example: 10
+                description: 每页显示记录数
+              query:
+                description: 筛选条件
+                type: object
+    responses:
+      200:
+        description: 单页数据
+        
+/api/<%= tablename %>.create:
+  post:
+    tags:
+      - <%= tablename %>
+    description: 创建
+    produces:
+      - application/json
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+    responses:
+      200:
+        description: 创建结果
+
+/api/<%= tablename %>/{_id}:
+  get:
+    description: 获取
+    tags:
+      - <%= tablename %>
+    parameters:
+      - in: path
+        name: _id
+        schema:
+          type: string
+        required: true
+        description: document id
+    responses:
+      200:
+        description: 对应文档
+  delete:
+    description: 删除
+    tags:
+      - <%= tablename %>
+    parameters:
+      - in: path
+        name: _id
+        schema:
+          type: string
+        required: true
+        description: document id
+  put:
+    description: 更新
+    tags:
+      - <%= tablename %>
+    produces:
+      - application/json
+    parameters:
+      - in: path
+        name: _id
+        schema:
+          type: string
+        required: true
+        description: document id
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+
+/api/<%= tablename %>.group:
+  post:
+    tags:
+      - <%= tablename %>
+    description: 分组
+    produces:
+      - application/json
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              field:
+                type: string
+                required: true
+                description: 字段名
+              condition:
+                type: object
+                description: 筛选条件
+
+    responses:
+      200:
+        description: 分组统计

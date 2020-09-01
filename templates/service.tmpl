@@ -28,15 +28,6 @@ module.exports = {
 	 */
   hooks: {
     before: {
-      /**
-			 * Register a before hook for the `create` action.
-			 * It sets a default value for the quantity field.
-			 *
-			 * @param {Context} ctx
-			 */
-      create(ctx) {
-        ctx.params.quantity = 0;
-      }
     }
   },
 
@@ -55,11 +46,18 @@ module.exports = {
 		 *  - remove
 		 */
 
-    // --- ADDITIONAL ACTIONS ---
+    // --- ADDITIONAL ACTIONS ---    
 
     async group(ctx) {
-      const { keys, condition = {}, initial = { total: 0 }, reduce = "function ( curr, result ) { result.total++ }" } = ctx.params;
-      let result = await this.adapter.collection.group(keys, condition, initial, reduce);
+      let { field, condition = {} } = ctx.params;
+      let result = await this.aggregate([
+        {
+          "$match": condition
+        }, {
+          "$group": {
+            _id: "$" + field
+          }
+        }]);
       return result;
     },
   },
@@ -68,6 +66,9 @@ module.exports = {
 	 * Methods
 	 */
   methods: {
+    async aggregate(params) {
+      return await this.adapter.collection.aggregate(params).toArray();
+    },
   },
 
   /**

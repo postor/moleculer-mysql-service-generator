@@ -10,7 +10,7 @@ var getConnectionConfig = require('./lib/cli/connection')
 var path = require('path')
 var mysql = require('mysql')
 var mysqlUtilities = require('mysql-utilities')
-var templatePath = path.join(__dirname, 'templates', 'service.tmpl')
+var templatePath = path.join(__dirname, 'templates')
 
 var config = {
   db: {
